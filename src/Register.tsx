@@ -1,27 +1,15 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState} from 'react';
 
-import {
-  Button,
-  StyleSheet,
-  Text,
-  TextInput,
-  TouchableOpacity,
-  View,
-} from 'react-native';
+import {Alert, Button, StyleSheet, Text, TextInput, View} from 'react-native';
 
-const Login = ({navigation}: any) => {
+const Register = () => {
   const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
-    
-    useEffect(() => {
-        console.log(
-            'email: ' + email
-        )
-    }, [email])
+  const [password, setPassword] = useState('');
+  const [repeatPassword, setRepeatPassword] = useState('');
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Enter in system</Text>
+      <Text style={styles.title}>Create Account</Text>
       <View>
         <TextInput
           value={email}
@@ -36,19 +24,23 @@ const Login = ({navigation}: any) => {
           style={styles.input}
           textContentType="password"
         />
-      </View>
-      <View>
-        <Button
-          onPress={() => {
-            navigation.navigate('MainMenu');
-          }}
-          color="#3aac28"
-          title="Log in"
+        <TextInput
+          value={repeatPassword}
+          onChangeText={text => setRepeatPassword(text)}
+          placeholder="Repeat Password"
+          style={styles.input}
+          textContentType="password"
         />
       </View>
-      <TouchableOpacity onPress={() => navigation.navigate('Register')}>
-        <Text style={styles.signIn}>or Register</Text>
-      </TouchableOpacity>
+      <View style={styles.buttonContainer}>
+        <Button
+          onPress={() => {
+            Alert.alert(email, password);
+          }}
+          color="#3aac28"
+          title="Create"
+        />
+      </View>
     </View>
   );
 };
@@ -62,7 +54,6 @@ const styles = StyleSheet.create({
     display: 'flex',
     flexDirection: 'column',
     height: '100%',
-    justifyContent: 'space-between',
     textAlign: 'center',
   },
   title: {
@@ -80,6 +71,9 @@ const styles = StyleSheet.create({
   signIn: {
     textAlign: 'center',
   },
+  buttonContainer: {
+    marginTop: 50,
+  },
 });
 
-export default Login;
+export default Register;

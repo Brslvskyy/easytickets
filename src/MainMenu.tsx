@@ -2,16 +2,22 @@ import React from 'react';
 
 import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 
-const MainMenu = () => {
+const MainMenu = ({navigation}: any) => {
   return (
     <View style={styles.container}>
-      <TouchableOpacity activeOpacity={0.7} style={styles.sectionContainer}>
+      <TouchableOpacity
+        onPress={() => navigation.navigate('NewEvent')}
+        activeOpacity={0.7}
+        style={styles.sectionContainer}>
         <Text style={styles.sectionText}>New Event</Text>
       </TouchableOpacity>
       <TouchableOpacity activeOpacity={0.7} style={styles.sectionContainer}>
-        <Text style={styles.sectionText}>Check Event</Text>
+        <Text style={styles.sectionText}>Events</Text>
       </TouchableOpacity>
-      <TouchableOpacity activeOpacity={0.7} style={styles.sectionContainer}>
+      <TouchableOpacity
+        onPress={() => navigation.navigate('ChangeInfo')}
+        activeOpacity={0.7}
+        style={styles.sectionContainer}>
         <Text style={styles.sectionText}>Change Information</Text>
       </TouchableOpacity>
     </View>
@@ -38,6 +44,7 @@ const styles = StyleSheet.create({
   },
   sectionText: {
     fontSize: 36,
+    color: '#fff',
   },
 });
 

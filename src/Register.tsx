@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 
 import {Alert, Button, StyleSheet, Text, TextInput, View} from 'react-native';
 
-const Register = () => {
+const Register = ({navigation}: any) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [repeatPassword, setRepeatPassword] = useState('');
@@ -35,7 +35,8 @@ const Register = () => {
       <View style={styles.buttonContainer}>
         <Button
           onPress={() => {
-            Alert.alert(email, password);
+            Alert.alert('Wellcome to Easy Ticket');
+            navigation.navigate('MainMenu');
           }}
           color="#3aac28"
           title="Create"

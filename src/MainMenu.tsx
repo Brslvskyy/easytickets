@@ -11,7 +11,10 @@ const MainMenu = ({navigation}: any) => {
         style={styles.sectionContainer}>
         <Text style={styles.sectionText}>New Event</Text>
       </TouchableOpacity>
-      <TouchableOpacity activeOpacity={0.7} style={styles.sectionContainer}>
+      <TouchableOpacity
+        onPress={() => navigation.navigate('Events')}
+        activeOpacity={0.7}
+        style={styles.sectionContainer}>
         <Text style={styles.sectionText}>Events</Text>
       </TouchableOpacity>
       <TouchableOpacity

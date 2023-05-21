@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 
 import {Alert, Button, StyleSheet, Text, TextInput, View} from 'react-native';
 
-const NewEvent = () => {
+const NewEvent = ({navigation}: any) => {
   const [name, setName] = useState('');
   const [city, setCity] = useState('');
   const [numberOfSeats, setNumberOfSeats] = useState('');
@@ -35,7 +35,8 @@ const NewEvent = () => {
       <View style={styles.buttonContainer}>
         <Button
           onPress={() => {
-            Alert.alert(name, city);
+            Alert.alert('Event added');
+            navigation.navigate('MainMenu');
           }}
           color="#3aac28"
           title="Create"

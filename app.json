@@ -1,4 +1,11 @@
 {
-  "name": "AwesomeProject",
-  "displayName": "AwesomeProject"
+  "expo": {
+    "scheme": "myapp",
+    "web": {
+      "bundler": "metro"
+    },
+    "name": "EasyTicket",
+    "slug": "EasyTicket",
+    "permissions": {}
+  }
 }

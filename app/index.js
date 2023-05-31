@@ -1,47 +1,46 @@
 import React, { useState, useEffect } from "react";
-import { Button, StyleSheet, Text, TextInput, View } from "react-native";
+import { Alert, Button, StyleSheet, Text, TextInput, View } from "react-native";
 import { Link, useRouter } from "expo-router";
+import { useEvent } from "../api/requests";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export default function Main() {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-
-  useEffect(() => {
-    console.log("email: " + email);
-  }, [email]);
-
+  const [eventId, setEventId] = useState("");
   const router = useRouter();
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Enter in system</Text>
+      <Text style={styles.title}>Введіть ID події</Text>
       <View>
         <TextInput
-          value={email}
-          onChangeText={(text) => setEmail(text)}
-          placeholder="Email"
+          value={eventId}
+          onChangeText={(text) => setEventId(text)}
+          placeholder="Event ID"
           style={styles.input}
-        />
-        <TextInput
-          value={password}
-          onChangeText={(text) => setPassword(text)}
-          placeholder="Password"
-          style={styles.input}
-          textContentType="password"
         />
       </View>
       <View>
         <Button
-          onPress={() => {
-            router.push("/MainMenu");
+          onPress={async () => {
+            const res = await useEvent({
+              eventId,
+            });
+            console.log("res", res);
+            if (res) {
+              await AsyncStorage.setItem("eventId", eventId);
+              router.push("/Scan");
+            } else {
+              Alert.alert("bad data");
+              setEventId("");
+            }
           }}
           color="#3aac28"
-          title="Log in"
+          title="Увійти"
         />
       </View>
-      <Link href="/Register" style={styles.signIn}>
+      {/* <Link href="/Register" style={styles.signIn}>
         or Register
-      </Link>
+      </Link> */}
     </View>
   );
 }
@@ -74,3 +73,5 @@ const styles = StyleSheet.create({
     textAlign: "center",
   },
 });
+
+// 646ba 9682 ad539 b462 94 b46b

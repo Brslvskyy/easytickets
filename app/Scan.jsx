@@ -2,18 +2,29 @@ import { StatusBar } from "expo-status-bar";
 import React, { useState, useEffect } from "react";
 import { StyleSheet, Text, View, Button, TouchableOpacity } from "react-native";
 import { BarCodeScanner } from "expo-barcode-scanner";
-import { testQuery, useTicket } from "../api/requests";
+import { useTicket } from "../api/requests";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const StatusType = {
-  success: 'success',
-  failed: 'failed'
-}
+  success: "success",
+  failed: "failed",
+};
 
 export default function App() {
   const [hasPermission, setHasPermission] = useState(null);
   const [scanned, setScanned] = useState(false);
-  const [text, setText] = useState("Not yet scanned");
+  const [text, setText] = useState("Готовий сканувати");
   const [status, setStatus] = useState(null);
+  const [eventId, setEventId] = useState("");
+
+  const getEventIdFromLS = async () => {
+    const event = await AsyncStorage.getItem("eventId");
+    setEventId(event);
+  };
+
+  useEffect(() => {
+    getEventIdFromLS();
+  }, []);
 
   const askForCamerPermission = () => {
     async () => {
@@ -28,27 +39,17 @@ export default function App() {
 
   useEffect(() => {
     const checkCode = async (text) => {
-      console.log(
-        'SCAN:', text
-      )
-      const res = await useTicket({ ticketId: text })
-      console.log('res' ,res);
+      console.log("SCAN:", text);
+      const res = await useTicket({ ticketId: text, eventId });
+      console.log("res", res);
       if (res) {
-        setStatus(StatusType.success)
+        setStatus(StatusType.success);
       } else {
-        setStatus(StatusType.failed)
+        setStatus(StatusType.failed);
       }
-    }
-    const getT =async () => {
-      
-      console.log('test query');
-      const data = await testQuery()
-      console.log(data)
-    }
-    if (text !== 'Not yet scanned') {
+    };
+    if (text !== "Готовий сканувати") {
       checkCode(text);
-    } else {
-      getT()
     }
   }, [text]);
 
@@ -76,13 +77,20 @@ export default function App() {
   }
 
   return (
-    <View  style={{
-      backgroundColor: status === StatusType.success ? '#0f0' : status === StatusType.failed ? '#f00' : '#fff',
-      
-    flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
-    }}>
+    <View
+      style={{
+        backgroundColor:
+          status === StatusType.success
+            ? "#0f0"
+            : status === StatusType.failed
+            ? "#f00"
+            : "#fff",
+
+        flex: 1,
+        alignItems: "center",
+        justifyContent: "center",
+      }}
+    >
       <View style={styles.barcodebox}>
         <BarCodeScanner
           onBarCodeScanned={scanned ? undefined : handleBarCodeScnned}
@@ -100,11 +108,11 @@ export default function App() {
           }}
           onPress={() => {
             setScanned(false);
-            setText('Not yet scanned');
-            setStatus(null)
+            setText("Готовий сканувати");
+            setStatus(null);
           }}
         >
-          <Text>Scan again</Text>
+          <Text>Сканувати</Text>
         </TouchableOpacity>
       )}
     </View>
